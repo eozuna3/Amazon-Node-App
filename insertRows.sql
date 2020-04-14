@@ -32,3 +32,7 @@ values("Universal TV Remote", "Electronics", 25.95, 2100);
 
 describe products;
 select * from products;
+
+update products
+set stock_quantity = 345
+where item_id = 4;

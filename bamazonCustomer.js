@@ -18,8 +18,8 @@ var connection = mysql.createConnection({
 connection.connect(function(err) {
   if (err) throw err;
   console.log("The connection id is " + connection.threadId);
-  //displayAvailableItems();
-  placeOrder();
+  displayAvailableItems();
+  //placeOrder();
   //connection.end();
 });
 
@@ -71,22 +71,58 @@ function placeOrder(){
 }
 
 function confirmQuantity(id, units){
-  var query = "SELECT stock_quantity FROM products WHERE item_id = " + id;
-  connection.query(query, function(err, results) {
+  var query = "SELECT stock_quantity, price FROM products WHERE ?";
+  connection.query(query, {item_id: id}, function(err, results) {
     if (err) throw err;
     if (results.length === 0){
       console.log("\nNo available stock was found for the item number requested\n");
     } else if (results[0].stock_quantity < units) {
       console.log("Sorry there is not enough product instock to fill your order.  Please try again.")
+      //startAgain();
     } else {
       console.log("Enough stock is available.")
-      updateStock();
+      updateStock(results[0].stock_quantity, units, id, results[0].price);
     }
     console.log("-------------------------------------------------\n");
   });
+  //connection.end();
+}
+
+function updateStock(availableUnits, requestedUnits, id, cost){
+  var query = "UPDATE products SET ? WHERE ?";
+  connection.query(query, 
+    [
+      {
+        stock_quantity: availableUnits - requestedUnits
+      },
+      {
+        item_id: id
+      }
+    ],
+    function(error) {
+      if (error) throw error;
+      console.log("Your order was placed successfully!");
+      console.log("The total cost of your order is $" + (requestedUnits * cost));
+      startAgain();
+    }
+  );
   connection.end();
 }
 
-function updateStock(){
-  console.log("updateStock function was called.")
+function startAgain(){
+  inquirer
+    .prompt([
+      {
+        type: "confirm",
+        message: "Do you wish to place another order?",
+        name: "confirm",
+        default: false
+      },
+    ]).then(function (inquirerResponse) {
+      if (inquirerResponse.confirm) {
+        displayAvailableItems();
+      } else {
+        connection.end();
+      }
+    });
 }
