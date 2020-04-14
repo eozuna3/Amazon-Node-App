@@ -41,7 +41,7 @@ function placeOrder(){
     .prompt([
       {
         type: "input",
-        message: "Please enter the number of the product you would like to buy.",
+        message: "Please enter the item number of the product you would like to buy from the store.",
         name: "productId",
         validate: function validateUserInput(productId) {
           var integers = /^[0-9]+$/;
@@ -75,18 +75,18 @@ function confirmQuantity(id, units){
   connection.query(query, function(err, results) {
     if (err) throw err;
     if (results.length === 0){
-      console.log("\nNo available quantities were found for the item requested\n");
+      console.log("\nNo available stock was found for the item number requested\n");
     } else if (results[0].stock_quantity < units) {
       console.log("Sorry there is not enough product instock to fill your order.  Please try again.")
     } else {
       console.log("Enough stock is available.")
       updateStock();
     }
-    // console.log(results.length);
-    // for (var i = 0; i < results.length; i++) {
-    //   console.log(results[i].stock_quantity);
-    // }
     console.log("-------------------------------------------------\n");
   });
   connection.end();
+}
+
+function updateStock(){
+  console.log("updateStock function was called.")
 }
