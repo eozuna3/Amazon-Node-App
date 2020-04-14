@@ -34,5 +34,5 @@ describe products;
 select * from products;
 
 update products
-set stock_quantity = 345
-where item_id = 4;
+set stock_quantity = 1111
+where item_id = 7;

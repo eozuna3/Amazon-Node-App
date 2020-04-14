@@ -19,8 +19,6 @@ connection.connect(function(err) {
   if (err) throw err;
   console.log("The connection id is " + connection.threadId);
   displayAvailableItems();
-  //placeOrder();
-  //connection.end();
 });
 
 function displayAvailableItems(){
@@ -29,7 +27,7 @@ function displayAvailableItems(){
     if (err) throw err;
     console.log("\nHere is a list of available items in the store for purchases\n");
     for (var i = 0; i < results.length; i++) {
-      console.log(results[i].item_id + ") Product Name: " + results[i].product_name + ", Price: " + results[i].price + ".");
+      console.log(results[i].item_id + ") Product Name: " + results[i].product_name + ", Price: " + results[i].price);
     }
     console.log("-------------------------------------------------\n");
     placeOrder();
@@ -62,12 +60,8 @@ function placeOrder(){
         }
       }
     ]).then(function (inquirerResponse){
-      console.log(inquirerResponse.productId);
-      console.log(inquirerResponse.unitNumbers);
-
       confirmQuantity(inquirerResponse.productId, inquirerResponse.unitNumbers);
     });
-    //connection.end();
 }
 
 function confirmQuantity(id, units){
@@ -76,16 +70,16 @@ function confirmQuantity(id, units){
     if (err) throw err;
     if (results.length === 0){
       console.log("\nNo available stock was found for the item number requested\n");
+      console.log("-------------------------------------------------\n");
+      startAgain();
     } else if (results[0].stock_quantity < units) {
       console.log("Sorry there is not enough product instock to fill your order.  Please try again.")
-      //startAgain();
+      console.log("-------------------------------------------------\n");
+      startAgain();
     } else {
-      console.log("Enough stock is available.")
       updateStock(results[0].stock_quantity, units, id, results[0].price);
     }
-    console.log("-------------------------------------------------\n");
   });
-  //connection.end();
 }
 
 function updateStock(availableUnits, requestedUnits, id, cost){
@@ -103,10 +97,10 @@ function updateStock(availableUnits, requestedUnits, id, cost){
       if (error) throw error;
       console.log("Your order was placed successfully!");
       console.log("The total cost of your order is $" + (requestedUnits * cost));
+      console.log("-------------------------------------------------\n");
       startAgain();
     }
   );
-  connection.end();
 }
 
 function startAgain(){
