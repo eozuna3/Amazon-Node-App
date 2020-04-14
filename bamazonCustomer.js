@@ -21,6 +21,7 @@ connection.connect(function(err) {
   displayAvailableItems();
 });
 
+//  This function will output the current list of items available in the store and the cost of each 
 function displayAvailableItems(){
   var query = "SELECT item_id, product_name, price FROM products ";
   connection.query(query, function(err, results) {
@@ -34,6 +35,7 @@ function displayAvailableItems(){
   });
 }
 
+//  This function will prompt the user to place an order by choosing an item and giving a quantity of how many items they want
 function placeOrder(){
   inquirer
     .prompt([
@@ -64,6 +66,7 @@ function placeOrder(){
     });
 }
 
+//  This function confirms that the user chooses an item available and makes sure that there is enough quantity to place the order 
 function confirmQuantity(id, units){
   var query = "SELECT stock_quantity, price FROM products WHERE ?";
   connection.query(query, {item_id: id}, function(err, results) {
@@ -82,6 +85,7 @@ function confirmQuantity(id, units){
   });
 }
 
+//  This function places the order for the user and updates the database in the store to reflect the order.  It also outputs the total cost of the order.
 function updateStock(availableUnits, requestedUnits, id, cost){
   var query = "UPDATE products SET ? WHERE ?";
   connection.query(query, 
@@ -103,6 +107,7 @@ function updateStock(availableUnits, requestedUnits, id, cost){
   );
 }
 
+//  This function is called once the user successfully completes and order or doesn't and prompts the user whether to try an order again or quit
 function startAgain(){
   inquirer
     .prompt([
