@@ -28,18 +28,48 @@ function start(){
       {
         type: "rawlist",
         message: "What do you wish to do?",
-        name: "optionsList",
+        name: "selection",
         choices: ["View Products for Sale", "View Low Inventory", "Add to Inventory", "Add New Product"]
       }
     ]).then(function(inquirerResponse){
-      console.log(inquirerResponse.optionsList);
-      switch (selection){
+      console.log(inquirerResponse.selection);
+      switch (inquirerResponse.selection){
         case "View Products for Sale":
           listProducts();
           break;
-
+        case "View Low Inventory":
+          lowInventory();
+          break;
+        case "Add to Inventory":
         
+          break;
+        case "Add New Product":
+          
+          break;          
       }
     });
-  connection.end();
+  //connection.end();
 }
+
+function listProducts(){
+  var query = "SELECT item_id, product_name, price, stock_quantity FROM products";
+  connection.query(query, function(err, results) {
+    if (err) throw err;
+    console.log("\nHere is the current inventory in the store.\n");
+    console.table(results);
+    console.log("-------------------------------------------------\n");
+    connection.end();
+  });
+}
+
+function lowInventory(){
+  var query = "select item_id, product_name, price, stock_quantity from products where stock_quantity < 5";
+  connection.query(query, function(err, results) {
+    if (err) throw err;
+    console.log("\nHere is a current list of current product items with stock quantities less than 5.\n");
+    console.table(results);
+    console.log("-------------------------------------------------\n");
+    connection.end();
+  });
+}
+

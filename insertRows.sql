@@ -1,7 +1,7 @@
 use bamazon;
 
-insert into products (product_name, department_name, price, stock_quantity)
-values("Disposable Latex Gloves", "Health and Personal Care", 12.99, 18);
+insert into products (item_id, product_name, department_name, price, stock_quantity)
+values(101, "Disposable Latex Gloves", "Health and Personal Care", 12.99, 18);
 
 insert into products (product_name, department_name, price, stock_quantity)
 values("Hand Sanitizer", "Health and Household", 3.79, 65);
@@ -36,3 +36,9 @@ select * from products;
 update products
 set stock_quantity = 1111
 where item_id = 7;
+
+update products
+set stock_quantity = 2
+where item_id = 109;
+
+select item_id, product_name, price, stock_quantity from products where stock_quantity < 5;

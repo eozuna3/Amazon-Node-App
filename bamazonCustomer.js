@@ -100,7 +100,7 @@ function updateStock(availableUnits, requestedUnits, id, cost){
     function(error) {
       if (error) throw error;
       console.log("Your order was placed successfully!");
-      console.log("The total cost of your order is $" + (requestedUnits * cost));
+      console.log("The total cost of your order is $" + (requestedUnits * cost).toFixed(2));
       console.log("-------------------------------------------------\n");
       startAgain();
     }
