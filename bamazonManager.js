@@ -1,5 +1,6 @@
 var mysql = require("mysql");
 var inquirer = require("inquirer");
+var Table = require("cli-table");
 
 var connection = mysql.createConnection({
   host: "localhost",
@@ -53,24 +54,37 @@ function start() {
 
 //  Function displays to the CLI a table of the contents in the bamazon database
 function listProducts() {
+  var table = new Table({
+    head: ["Item Id", "Product Name", "Price", "Stock Quantity"]
+    , colWidths: [10, 40, 12, 20]
+  });
   var query = "SELECT item_id, product_name, price, stock_quantity FROM products";
   connection.query(query, function (err, results) {
     if (err) throw err;
-    console.log("\nHere is the current inventory in the store.\n");
-    console.table(results);
-    console.log("-------------------------------------------------\n");
+    for (var i = 0; i < results.length; i++) {
+      table.push([results[i].item_id, results[i].product_name, results[i].price, results[i].stock_quantity]);
+    }
+    console.log(table.toString());
+    console.log("-------------------------------------------------------------\n");
     startAgain();
   });
 }
 
 //  Function that displays to the CLI a list of items in the database that have a stock quantity of less than 5
 function lowInventory() {
+  var table = new Table({
+    head: ["Item Id", "Product Name", "Price", "Stock Quantity"]
+    , colWidths: [10, 40, 12, 20]
+  });
   var query = "select item_id, product_name, price, stock_quantity from products where stock_quantity < 5";
   connection.query(query, function (err, results) {
     if (err) throw err;
     if (results.length > 0) {
       console.log("\nHere is a current list of product items with stock quantities less than 5.\n");
-      console.table(results);
+      for (var i = 0; i < results.length; i++) {
+        table.push([results[i].item_id, results[i].product_name, results[i].price, results[i].stock_quantity]);
+      }
+      console.log(table.toString());
       console.log("-------------------------------------------------\n");
       startAgain();
     } else {

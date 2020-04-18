@@ -11,12 +11,15 @@ The first part of both the Manager.js file and Customer.js file involves requiri
 The Customer.js file then will call a function called *displayAvailableItems* that displays a list of available items to the CLI.  It displays the id number for each item, the name of the item and the price of each item.  The next function, *placeOrder*, will allow the customer user to purchase a certain number of product items from the list of previously displayed items.  The *confirmQuantity* function, checks to make sure that there is enough stock of the item selected by the user to purchase.  If not enough stock is available with will notify the customer via the CLI that there is not enough stock.  If the customer chooses a product item that is not in the database it will also notify the customer via the CLI that they no item was available for the item id they entered.  If enough stock is available for the selected product id, then the *confirmQuantity* will call the *updateStock* function which will update the stock quantity for the selected product in the database.  It will adjust the stock quantity based on the amount ordered by the customer and display the total cost of the purchase to CLI for the customer.  Finally, the file has a *startAgain* function that will ask the customer if they want to purchase more items from the store or not again using the inquirer module.  If the customer selects yes, then the *displayAvailableItems* function will be called again and the above process will start over, otherwise, the application ends and the connection to the database is closed.
 
 
-Th
+The Manager.js file will call a function called *start* that users the inquirer module to display a list of options to perform for the manager.  The next function called *listProducts* displays a full list of products in the stores database to the CLI.  The next function, *lowInventory*, is called which displays to the CLI a table containing the all the information on products whose stock quantity is less than 5.  The *addToInventory* function, will prompt the manager to select a product item to add additional stock to, and asks how much stock will be added.  It then updates the stock quantity in the database if it can find the product item number.  The *addNewProduct" function will allow the manager to add a completely new product to the database, and will prompt the manager to enter in all the necessary information for the new product.  The final function of this file called *startAgain* will ask the manager if they wished to perform more actions on the products or leave the application.
+
+
 ### Technologies used in the application
 1.  Javascript
 2.  Node.js
 3.  mySQL server
 4.  Inquirer NPM
+5.  Cli-Table NPM
 
 ## Instructions for use of the application
 ### Before using the app
@@ -27,27 +30,31 @@ Before you can start to use the app you will need to install the following modul
 Here is a link to the documentation for inquirer to use as a reference 
 * [inquirer](https://www.npmjs.com/package/inquirer)
 * [mySQL](https://www.npmjs.com/package/mysql)
+* [cli-table](https://www.npmjs.com/package/cli-table)
 
 ### Running the application
-To start the application you will need to type in the following code into the command line terminal.
+To start the application you will need to type in one of the following lines of code into the command line terminal based on whether you would like to be a customer or manager.
 
-`$ node bamazonCustomer.js`
+`$ node bamazonCustomer.js` or `$ node bamazonManager.js`
 
-#### Playing the Game
-The application outputs that the game has started, and outputs a series of underscores representing the number of letters in the name which the user will guess. Below is a screen shot of this initial 
-
-
-  ![Image of first screenshot](images/CWG-1.png)
+#### Customer applicaton
+The application outputs to the CLI a list of available product items to purchase and then prompts the user which item to select to purchase and asks how many items they want to purchase. Below is a screen shot of this 
 
 
-#### How to uses the CLI for playing the game
-The command line will only accept letters (either lowercase or uppercase) as inputs for the game.  Any other entry will not allow the game to continue.  Also leaving the input blank as well to not allow the game to move forward.
+  ![Image of 1st screenshot](images/ANA-1.png)
+  ![Image of 2nd screenshot](images/ANA-2.png)
 
-Once the user has entered a letter into the CLI the game moves on and will either notify the user if the letter they entered is a letter in the name they are trying to guess or whether it is not.  Below is a screen shot of this example.
+Once the customer enters in the appropriate information the application will notify them that the order was successful placed and display to the CLI the total cost of their order.  It will then ask the customer if they want to place another order or not.
 
-  ![Image of correct and incorrect guess](images/CWG-2.png)
+  ![Image of 3rd screen shot](images/ANA-3.png)
 
 Once the user has correctly guessed the name of the character before they run out of guesses then the application outputs that the user won and asks if the user wishes to play the game again.  Below is a screen shot of this example.
+
+If the customer places an order for more products that the current stock quantity in the store the purchase will not proceed and the customer is alerted via CLI about the failed order.
+
+![Image of 4th screen shot](images/ANA-4.png)
+
+If the user enters "yes" or "y", then the application will restart and the list of products available is re-displayed.  Otherwise, if the user types in "no", "n", or justs hit enter the application will end and the application will stop.  If you wish to play other game after the application stops you will have to re-enter the CLI code above to restart the application.
 
   ![Image of correct and incorrect guess](images/CWG-3.png)
 
