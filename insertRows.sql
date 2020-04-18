@@ -38,7 +38,11 @@ set stock_quantity = 1111
 where item_id = 7;
 
 update products
-set stock_quantity = 2
+set stock_quantity = 13
 where item_id = 109;
 
-select item_id, product_name, price, stock_quantity from products where stock_quantity < 5;
+update products
+set stock_quantity = 23
+where item_id = 101;
+
+select item_id, product_name, price, stock_quantity from products where stock_quantity > 5;

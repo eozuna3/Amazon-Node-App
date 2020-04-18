@@ -19,7 +19,6 @@ connection.connect(function (err) {
   if (err) throw err;
   console.log("The connection id is " + connection.threadId);
   start();
-  //connection.end();
 });
 
 function start() {
@@ -44,7 +43,7 @@ function start() {
           addToInventory();
           break;
         case "Add New Product":
-
+          addNewProduct();
           break;
       }
     });
@@ -58,7 +57,7 @@ function listProducts() {
     console.log("\nHere is the current inventory in the store.\n");
     console.table(results);
     console.log("-------------------------------------------------\n");
-    connection.end();
+    startAgain();
   });
 }
 
@@ -70,11 +69,11 @@ function lowInventory() {
       console.log("\nHere is a current list of product items with stock quantities less than 5.\n");
       console.table(results);
       console.log("-------------------------------------------------\n");
-      connection.end();
+      startAgain();
     } else {
       console.log("\nThere are currently no stock items with low quantities.\n");
       console.log("-------------------------------------------------\n");
-      connection.end();
+      startAgain();
     }
   });
 }
@@ -123,14 +122,93 @@ function addToInventory() {
             ],
             function (error) {
               if (error) throw err;
-              console.log("Additional stock was successfully added!");
+              console.log("\nAdditional stock was successfully added!\n");
+              console.log("-------------------------------------------------\n");
+              startAgain();
             });
-          connection.end();
         } else {
           console.log("\nThe item id you enter was not found in the database.  Please try again.\n");
           console.log("-------------------------------------------------\n");
-          connection.end();
+          startAgain();
         }
       });
+    });
+}
+
+function addNewProduct() {
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        message: "Please type in the name of the new item you would like to add.",
+        name: "productName"
+      },
+      {
+        type: "input",
+        message: "What is the name of the department this item can be found in?",
+        name: "departmentName"
+      },
+      {
+        type: "input",
+        message: "What is the price of each item?",
+        name: "setPrice",
+        validate: function validateUserInput(setPrice) {
+          var decimal = /^[-+]?[0-9]+\.[0-9]+$/;
+          if (setPrice !== "" && setPrice.match(decimal) !== null) {
+            return true;
+          }
+        }
+      },
+      {
+        type: "input",
+        message: "How much stock quantity will this item have?",
+        name: "quantity",
+        validate: function validateUserInput(quantity) {
+          var integers = /^[0-9]+$/;
+          if (quantity !== "" && quantity.match(integers) !== null) {
+            return true;
+          }
+        }
+      }
+    ]).then(function (inquirerResponse) {
+      var quantity = parseInt(inquirerResponse.quantity);
+      var setPrice = parseFloat(inquirerResponse.setPrice).toFixed(2);
+      console.log(quantity);
+      console.log(parseFloat(setPrice));
+      console.log(inquirerResponse.productName);
+      console.log(inquirerResponse.departmentName);
+
+      connection.query("INSERT INTO products SET ?",
+        {
+          product_name: inquirerResponse.productName,
+          department_name: inquirerResponse.departmentName,
+          price: parseFloat(setPrice),
+          stock_quantity: quantity
+        },
+        function (error) {
+          if (error) throw error;
+          console.log("\nNew Item was successfully added!\n");
+          console.log("-------------------------------------------------\n");
+          startAgain();
+        }
+        );
+    });
+}
+
+function startAgain(){
+  inquirer
+    .prompt([
+      {
+        type: "confirm",
+        message: "\nWould you like to go back to the main menu?",
+        name: "confirm",
+        default: false
+      },
+    ]).then(function (inquirerResponse) {
+      if (inquirerResponse.confirm) {
+        start();
+      } else {
+        connection.end();
+      }
     });
 }
