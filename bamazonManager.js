@@ -21,6 +21,7 @@ connection.connect(function (err) {
   start();
 });
 
+//  Function which uses inquirer prompts to ask the manager user to make a selection for what they wish to do with amazon product database
 function start() {
   inquirer
     .prompt([
@@ -50,6 +51,7 @@ function start() {
   //connection.end();
 }
 
+//  Function displays to the CLI a table of the contents in the bamazon database
 function listProducts() {
   var query = "SELECT item_id, product_name, price, stock_quantity FROM products";
   connection.query(query, function (err, results) {
@@ -61,6 +63,7 @@ function listProducts() {
   });
 }
 
+//  Function that displays to the CLI a list of items in the database that have a stock quantity of less than 5
 function lowInventory() {
   var query = "select item_id, product_name, price, stock_quantity from products where stock_quantity < 5";
   connection.query(query, function (err, results) {
@@ -78,6 +81,7 @@ function lowInventory() {
   });
 }
 
+//  Function that allow the manager to add stock to any item in the bamazon database
 function addToInventory() {
   inquirer
     .prompt([
@@ -135,6 +139,7 @@ function addToInventory() {
     });
 }
 
+//  Function that allows the manager user to add a completely new product to the list of items in the bamazon database
 function addNewProduct() {
   inquirer
     .prompt([
@@ -173,11 +178,6 @@ function addNewProduct() {
     ]).then(function (inquirerResponse) {
       var quantity = parseInt(inquirerResponse.quantity);
       var setPrice = parseFloat(inquirerResponse.setPrice).toFixed(2);
-      console.log(quantity);
-      console.log(parseFloat(setPrice));
-      console.log(inquirerResponse.productName);
-      console.log(inquirerResponse.departmentName);
-
       connection.query("INSERT INTO products SET ?",
         {
           product_name: inquirerResponse.productName,

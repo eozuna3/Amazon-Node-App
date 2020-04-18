@@ -1,5 +1,6 @@
 var mysql = require("mysql");
 var inquirer = require("inquirer");
+var Table = require("cli-table");
 
 var connection = mysql.createConnection({
   host: "localhost",
@@ -23,14 +24,21 @@ connection.connect(function(err) {
 
 //  This function will output the current list of items available in the store and the cost of each 
 function displayAvailableItems(){
+  var table = new Table({
+    head: ["Item Id", "Product Name", "Price"]
+  , colWidths: [10, 40, 12]
+});
+
   var query = "SELECT item_id, product_name, price FROM products ";
   connection.query(query, function(err, results) {
     if (err) throw err;
+    table.push([results[0].item_id, results[0].product_name, results[0].price]);
     console.log("\nHere is a list of available items in the store for purchases\n");
     for (var i = 0; i < results.length; i++) {
-      console.log(results[i].item_id + ") Product Name: " + results[i].product_name + ", Price: " + results[i].price);
+      table.push([results[i].item_id, results[i].product_name, results[i].price]);
     }
-    console.log("-------------------------------------------------\n");
+    console.log(table.toString());
+    console.log("-------------------------------------------------------------\n");
     placeOrder();
   });
 }
@@ -73,11 +81,11 @@ function confirmQuantity(id, units){
     if (err) throw err;
     if (results.length === 0){
       console.log("\nNo available stock was found for the item number requested\n");
-      console.log("-------------------------------------------------\n");
+      console.log("--------------------------------------------------------------\n");
       startAgain();
     } else if (results[0].stock_quantity < units) {
       console.log("Sorry there is not enough product instock to fill your order.  Please try again.")
-      console.log("-------------------------------------------------\n");
+      console.log("--------------------------------------------------------------\n");
       startAgain();
     } else {
       updateStock(results[0].stock_quantity, units, id, results[0].price);
