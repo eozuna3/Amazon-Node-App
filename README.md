@@ -48,22 +48,48 @@ Once the customer enters in the appropriate information the application will not
 
   ![Image of 3rd screen shot](images/ANA-3.png)
 
-Once the user has correctly guessed the name of the character before they run out of guesses then the application outputs that the user won and asks if the user wishes to play the game again.  Below is a screen shot of this example.
-
 If the customer places an order for more products that the current stock quantity in the store the purchase will not proceed and the customer is alerted via CLI about the failed order.
 
 ![Image of 4th screen shot](images/ANA-4.png)
 
-If the user enters "yes" or "y", then the application will restart and the list of products available is re-displayed.  Otherwise, if the user types in "no", "n", or justs hit enter the application will end and the application will stop.  If you wish to play other game after the application stops you will have to re-enter the CLI code above to restart the application.
+If the user enters "yes" or "y", then the application will restart and the list of products available is re-displayed.  Otherwise, if the user types in "no", "n", or justs hit enter the application will end and the application will stop.
 
-  ![Image of correct and incorrect guess](images/CWG-3.png)
+#### Manager applicaton
+The application outputs to the CLI a list of operations the manager user can perform on all available product items in the database.  Here is a screenshot of the selection menu.
 
-If the user enters "yes" or "y", then the game will restart and a new character name will be choosen.  Otherwise, if the user types in "no", "n", or justs hit enter the game will end and the application will stop.  If you wish to play other game after the application stops you will have to re-enter the CLI code above to restart the application.
+![Image of screenshot](images/ANA-5.png)
 
-If the player runs out of guesses before they correctly complete the name, then the application outputs that the user lost, and asks if the user wishes to play the game again.  If the user enters "yes" or "y", then the game will restart and a new character name will be choosen.  Otherwise, if the user types in "no", "n", or justs hit enter the game will end and the application will stop.  If you wish to play other game after the application stops you will have to re-enter the CLI code above to restart the application.  Below is a screen shot of this example.
 
-![Image of correct and incorrect guess](images/CWG-4.png)
+Based on the manager's selection choice, the outputs that are possible are illustarted below.
+
+  1.  **View Products for Sale**
+  This selection outputs to the CLI a table of all the available product items in the store database.
+
+  ![Image of screenshot](images/ANA-6.png)
+
+  2.  **View Low Inventory**
+  This selection outputs to the CLI a table of all the product items that have a stock inventory less than 5.
+
+  ![Image of screenshot](images/ANA-7.png)
+
+3.  **Add to Inventory**
+  This selection uses inquirer prompting to first ask the manager which item they would like to add stock to and then requests the amount of stock they wish to add to the item.  If the manager chooses an item not available in the store the manager is alerted that no product item was found.
+
+  ![Image of screenshot](images/ANA-8.png)
+
+3.  **Add to Inventory**
+  This selection uses inquirer prompting to first ask the manager which item they would like to add stock to and then requests the amount of stock they wish to add to the item.  If the manager chooses an item not available in the store the manager is alerted that no product item was found.
+
+  ![Image of screenshot](images/ANA-8.png)
+
+4.   **Add New Product**
+ This final selection allows the manager to add a completely new product item to the product database.
+
+![Image of screenshot](images/ANA-9.png)
+![Image of screenshot](images/ANA-10.png)
+
+After the manager completes one of the operations it prompts the manager is they wish to return back to the main menu and choose another operation to perform.  If the manager enters "yes" or "y", then the application will restart and the main menu is re-displayed.  Otherwise, if the user types in "no", "n", or justs hit enter the application will end and the application will stop.
 
 ## Links associated with the application
-1.  Link to git hub repository for this app:  [Github Link](https://github.com/eozuna3/Constructor-Word-Guess)
+1.  Link to git hub repository for this app:  [Github Link](https://github.com/eozuna3/Amazon-Node-App)
 2. Here is a links to videos showing how the application functions: [Constructor-Word-Guess-Game](https://drive.google.com/file/d/1hbL28NIDCxZHkX-bcyZsvZi0PUa5oiIH/view?usp=sharing)
