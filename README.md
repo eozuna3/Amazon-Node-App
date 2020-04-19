@@ -92,4 +92,5 @@ After the manager completes one of the operations it prompts the manager is they
 
 ## Links associated with the application
 1.  Link to git hub repository for this app:  [Github Link](https://github.com/eozuna3/Amazon-Node-App)
-2. Here is a links to videos showing how the application functions: [Constructor-Word-Guess-Game](https://drive.google.com/file/d/1hbL28NIDCxZHkX-bcyZsvZi0PUa5oiIH/view?usp=sharing)
+2. Here is a links to videos showing how the Manager application functions: [Manager Application](https://drive.google.com/file/d/1_q0QWx-cbzq0d_NzV4yfj40kytYBwzUv/view?usp=sharing)
+2. Here is a links to videos showing how the Manager application functions: [Customer Application](https://drive.google.com/file/d/1EP3Y4K3H1k6cgk6FOxQ-B_7gCG44e4vH/view?usp=sharing)
